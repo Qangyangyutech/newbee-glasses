@@ -1,0 +1,19 @@
+{
+  "schema": "newbee.quant/v1",
+  "method": "int4-weight-only",
+  "group_size": 128,
+  "per_channel": true,
+  "symmetric": true,
+  "calibration": {
+    "dataset": "newbee-calib-zh-2k",
+    "samples": 2048,
+    "sequence_length": 4096
+  },
+  "targets": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+  "keep_high_precision": ["lm_head", "embed_tokens"],
+  "expected": {
+    "size_gb": 1.8,
+    "perplexity_delta": "<= 0.35",
+    "decode_tokens_per_s_a55": 18
+  }
+}

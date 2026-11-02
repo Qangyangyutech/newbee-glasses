@@ -1,0 +1,11 @@
+{
+  "id": "hello.gaze.read",
+  "name": "注视朗读",
+  "version": "0.9.0",
+  "author": "Qangyangyutech",
+  "entry": "./hello_skill",
+  "permissions": ["gaze", "tts"],
+  "events": ["NB_EV_GAZE"],
+  "min_firmware": "0.9.0",
+  "offline": true
+}

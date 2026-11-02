@@ -1,0 +1,20 @@
+{
+  "schema": "newbee.lora/v1",
+  "name": "newbee-scene-zh",
+  "base_model": "deepseek-v4-pro",
+  "rank": 16,
+  "alpha": 32,
+  "dropout": 0.05,
+  "target_modules": ["q_proj", "v_proj"],
+  "scenes": ["commute", "cycling", "meeting", "travel"],
+  "train": {
+    "samples": 48000,
+    "epochs": 2,
+    "lr": 0.0002,
+    "max_len": 2048
+  },
+  "eval": {
+    "intent_accuracy": 0.94,
+    "hallucination_rate": 0.012
+  }
+}

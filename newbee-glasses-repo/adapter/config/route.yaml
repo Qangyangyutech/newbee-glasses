@@ -1,0 +1,39 @@
+# 场景路由配置
+version: 1
+
+offline:
+  # 端侧直接处理，不下云（断网仍可用）
+  budget_ms: 80
+  commands:
+    - { intent: camera.capture,  phrases: ["拍照", "拍一张", "记录一下"] }
+    - { intent: camera.record,   phrases: ["开始录像", "停止录像"] }
+    - { intent: media.play,      phrases: ["播放", "下一首", "暂停"] }
+    - { intent: volume.set,      phrases: ["大声一点", "小声一点", "静音"] }
+    - { intent: time.now,        phrases: ["几点了", "现在时间"] }
+    - { intent: battery.status,  phrases: ["还有多少电", "电量"] }
+    - { intent: nav.back_home,   phrases: ["带我回去", "导航回家"] }
+    - { intent: notify.mute,     phrases: ["免打扰", "别提醒我"] }
+    - { intent: translate.quick, phrases: ["翻译一下"] }
+    - { intent: note.capture,    phrases: ["记一下", "备忘"] }
+    - { intent: call.answer,     phrases: ["接电话", "挂断"] }
+    - { intent: timer.set,       phrases: ["定个闹钟", "倒计时"] }
+
+cloud:
+  model: deepseek-v4-pro-newbee
+  region: cn-east-1
+  max_tokens: 256
+  temperature: 0.2
+  timeout_ms: 1800
+  retry: 1
+
+context:
+  vision:
+    mode: roi            # 只上传感兴趣区域
+    max_edge: 720
+    jpeg_quality: 70
+  audio:
+    asr: on_device       # 语音先端侧转写
+    keep_raw: false
+  window:
+    max_tokens: 8192
+    strategy: rolling
