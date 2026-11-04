@@ -10,6 +10,11 @@ import time
 from dataclasses import dataclass, field
 from typing import Iterable
 
+try:
+    from .capabilities import DEFAULT_TIER, Profile, get_profile
+except ImportError:  # 直接运行 python src/router.py 时退化为同目录导入
+    from capabilities import DEFAULT_TIER, Profile, get_profile
+
 WAKE_BUDGET_MS = 80
 DEFAULT_P95_MS = 1800
 
@@ -18,6 +23,7 @@ DEFAULT_P95_MS = 1800
 class Route:
     intent: str
     phrases: tuple[str, ...]
+    requires: tuple[str, ...] = ()
 
 
 @dataclass
@@ -28,12 +34,27 @@ class Decision:
     payload: dict = field(default_factory=dict)
 
 
-class Router:
-    """先用本地白名单命中，再决定是否上云。"""
+def _unsupported_reply(missing: Iterable[str]) -> str:
+    needs = "、".join(missing)
+    return f"当前机型不支持该功能（需要：{needs}），可在手机端继续。"
 
-    def __init__(self, offline: Iterable[Route], cloud_model: str = "deepseek-v4-pro-newbee"):
+
+class Router:
+    """先用本地白名单命中，再决定是否上云；能力不足时降级而不是报错。"""
+
+    def __init__(
+        self,
+        offline: Iterable[Route],
+        cloud_model: str = "deepseek-v4-pro-newbee",
+        profile: Profile | str = DEFAULT_TIER,
+    ):
         self._offline = list(offline)
         self._cloud_model = cloud_model
+        self._profile = get_profile(profile) if isinstance(profile, str) else profile
+
+    @property
+    def profile(self) -> Profile:
+        return self._profile
 
     def route(self, text: str, *, online: bool = True) -> Decision:
         started = time.perf_counter()
@@ -42,6 +63,18 @@ class Router:
         for route in self._offline:
             for phrase in route.phrases:
                 if phrase in normalized:
+                    missing = self._profile.missing(route.requires)
+                    if missing:
+                        return Decision(
+                            handled_on_device=True,
+                            intent="fallback.unsupported",
+                            elapsed_ms=(time.perf_counter() - started) * 1000,
+                            payload={
+                                "reply": _unsupported_reply(missing),
+                                "missing": list(missing),
+                                "requested": route.intent,
+                            },
+                        )
                     return Decision(
                         handled_on_device=True,
                         intent=route.intent,
@@ -71,6 +104,10 @@ class Router:
 
 def load_routes(config: dict) -> list[Route]:
     return [
-        Route(intent=item["intent"], phrases=tuple(item["phrases"]))
+        Route(
+            intent=item["intent"],
+            phrases=tuple(item["phrases"]),
+            requires=tuple(item.get("requires", ())),
+        )
         for item in config["offline"]["commands"]
     ]

@@ -4,13 +4,16 @@
 #include <stdint.h>
 #include <stddef.h>
 
-/* 显示：光波导模组，MIPI-DSI，单目 640x480 @ 60 Hz */
-#define NB_DISPLAY_W        640
-#define NB_DISPLAY_H        480
+#include "newbee_tier.h"
+
+/* 板级参数随机型变化：数值来自 nb_caps()，不要在这里写死 */
+/* 显示：光波导模组，MIPI-DSI；Lite 机型无显示，宽高为 0 */
+#define NB_DISPLAY_W        (nb_caps()->display_w)
+#define NB_DISPLAY_H        (nb_caps()->display_h)
 #define NB_DISPLAY_FPS      60
 
-/* 音频：6 麦克风阵列（环形，间距 12 mm） */
-#define NB_MIC_COUNT        6
+/* 音频：麦克风数量随机型变化（Lite 2 / Standard 4 / Pro 6） */
+#define NB_MIC_COUNT        (nb_caps()->mic_count)
 #define NB_AUDIO_SR         16000
 #define NB_AUDIO_FRAME_MS   20
 
@@ -25,6 +28,7 @@ typedef enum {
     NB_ERR_IO = -1,
     NB_ERR_TIMEOUT = -2,
     NB_ERR_STATE = -3,
+    NB_ERR_UNSUPPORTED = -4,
 } nb_status_t;
 
 typedef struct {
@@ -37,5 +41,6 @@ typedef struct {
 nb_status_t nb_board_init(void);
 nb_status_t nb_board_read_sensors(nb_sensor_frame_t *out);
 void nb_board_enter_low_power(void);
+void nb_delay_ms(uint32_t ms);
 
 #endif /* NEWBEE_BOARD_H */

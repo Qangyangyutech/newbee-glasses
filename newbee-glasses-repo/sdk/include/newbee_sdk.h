@@ -40,6 +40,44 @@ void nb_stop(void);
 int  nb_set_offline_commands(const char *const *phrases, uint32_t count);
 const char *nb_last_error(void);
 
+/* ---------------- 机型能力 ----------------
+ * 同一份技能代码要在三档机型上跑：能力查询先于功能调用，别靠 try/catch。
+ * 与 firmware/include/newbee_tier.h、sku/tiers.json 三处保持一致。
+ */
+typedef enum {
+    NB_MODEL_LITE = 0,      /* NB-L1 NewBee Air：无显示 */
+    NB_MODEL_STANDARD = 1,  /* NB-S1 NewBee：单色光波导 */
+    NB_MODEL_PRO = 2,       /* NB-P1 NewBee Pro：全彩 + 空间交互 */
+    NB_MODEL_UNKNOWN = 3
+} nb_model_t;
+
+typedef enum {
+    NB_FEAT_DISPLAY = 0,          /* 光波导显示 */
+    NB_FEAT_GESTURE,              /* 手势识别 */
+    NB_FEAT_DEPTH,                /* 深度传感 */
+    NB_FEAT_REPLACEABLE_BATTERY,  /* 可换电池 */
+    NB_FEAT_COUNT
+} nb_feature_t;
+
+typedef struct {
+    nb_model_t model;
+    const char *sku;
+    const char *name;
+    int has_display;
+    int display_w;
+    int display_h;
+    int mic_count;
+    int camera_count;
+    int offline_intents;
+} nb_model_caps_t;
+
+/* 握手阶段由客户端调用；默认按 NB_MODEL_STANDARD 处理 */
+int  nb_model_set(nb_model_t model);
+nb_model_t nb_model_get(void);
+const nb_model_caps_t *nb_model_caps(void);
+const nb_model_caps_t *nb_model_caps_for(nb_model_t model);
+int  nb_model_supports(nb_feature_t feature);
+
 #ifdef __cplusplus
 }
 #endif

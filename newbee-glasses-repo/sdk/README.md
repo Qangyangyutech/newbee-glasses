@@ -21,9 +21,36 @@ int main(void) {
 }
 ```
 
+## 机型能力
+
+同一份技能要在三档机型上跑，先查能力再调功能：
+
+```c
+const nb_model_caps_t *caps = nb_model_caps();
+if (caps->has_display) {
+    /* 画卡片 */
+} else {
+    /* 降级为语音播报 */
+}
+
+if (nb_model_supports(NB_FEAT_GESTURE)) {
+    /* 只有 Pro 有手势 */
+}
+```
+
+| 机型 | SKU | 显示 | 麦克风 | 手势 / 深度 | 离线指令 |
+| --- | --- | --- | ---: | --- | ---: |
+| `NB_MODEL_LITE` | NB-L1 | 无 | 2 | — | 8 |
+| `NB_MODEL_STANDARD` | NB-S1 | 单色 640×480 | 4 | — | 12 |
+| `NB_MODEL_PRO` | NB-P1 | 全彩 1280×720 | 6 | 支持 | 12 |
+
+`nb_model_set()` 在握手阶段由客户端调用；未设置时按 Standard 处理。能力数据与
+`sku/tiers.json`、`firmware/src/tier.c` 保持一致。
+
 ## 目录
 
 - `include/`：对外头文件，ABI 稳定，按语义化版本演进
+- `src/`：机型能力表的客户端实现
 - `examples/`：可直接编译的最小技能
 - `bindings/`：各语言绑定（Android JNI / Python ctypes / Rust FFI）
 

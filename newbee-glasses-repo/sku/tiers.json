@@ -1,0 +1,145 @@
+{
+  "schema": "newbee.sku.tiers/1",
+  "currency": "CNY",
+  "updated": "2026-11-04",
+  "tax": {
+    "vat": 0.13,
+    "note": "增值税按销售环节计征；cost 为完全成本，已含研发摊销、渠道与物流"
+  },
+  "tiers": [
+    {
+      "id": "lite",
+      "sku": "NB-L1",
+      "name": "NewBee Air",
+      "tagline": "听得见的 AI，不进眼睛",
+      "positioning": "无显示语音眼镜：把 AI 助手做成一副日常眼镜，不为 AR 付钱",
+      "price": 3499,
+      "cost": 2500,
+      "weight_g": 38,
+      "target_user": "第一次尝试智能眼镜、以通勤与运动为主的用户",
+      "use_cases": [
+        "地铁与骑行导航（语音播报）",
+        "会议录音与要点转写（手机端查看）",
+        "接打电话、拍照记录、音乐播控"
+      ],
+      "caps": {
+        "display": "none",
+        "display_w": 0,
+        "display_h": 0,
+        "mic_count": 2,
+        "camera_count": 1,
+        "depth": false,
+        "gesture": false,
+        "touch": "single",
+        "battery_h": 6,
+        "replaceable_battery": false,
+        "offline_intents": 8,
+        "wifi": "5",
+        "bt": "5.2"
+      },
+      "bom": [
+        { "group": "主板", "item": "SoC + 存储 + 电源管理", "amount": 520 },
+        { "group": "摄像头", "item": "单目 1080p", "amount": 130 },
+        { "group": "音频", "item": "双麦阵列 + 定向扬声器", "amount": 60 },
+        { "group": "结构", "item": "PC+ABS 镜架（无金属件）", "amount": 180 },
+        { "group": "电池", "item": "内置 6 h", "amount": 90 },
+        { "group": "制造", "item": "组装 + 产测", "amount": 420 },
+        { "group": "包装", "item": "简装 + 充电线", "amount": 100 },
+        { "group": "物流", "item": "干线 + 仓储分摊", "amount": 150 },
+        { "group": "研发", "item": "平台研发摊销", "amount": 300 },
+        { "group": "渠道", "item": "渠道 + 售后计提", "amount": 250 },
+        { "group": "税费", "item": "其他税费与损耗", "amount": 300 }
+      ]
+    },
+    {
+      "id": "standard",
+      "sku": "NB-S1",
+      "name": "NewBee",
+      "tagline": "把字幕、导航和翻译抬到眼前",
+      "positioning": "单色光波导主力款：AR 的三个高频场景全给，价格压进旗舰手机区间",
+      "price": 6999,
+      "cost": 4200,
+      "weight_g": 44,
+      "target_user": "通勤、会议、旅行强度高的效率敏感人群",
+      "use_cases": [
+        "实时字幕与会议转写",
+        "步行与骑行抬头导航",
+        "14 种语言离线互译（字幕 + 语音）"
+      ],
+      "caps": {
+        "display": "mono",
+        "display_w": 640,
+        "display_h": 480,
+        "mic_count": 4,
+        "camera_count": 1,
+        "depth": false,
+        "gesture": false,
+        "touch": "dual",
+        "battery_h": 8,
+        "replaceable_battery": true,
+        "offline_intents": 12,
+        "wifi": "6",
+        "bt": "5.3"
+      },
+      "bom": [
+        { "group": "主板", "item": "SoC + 存储 + 电源管理", "amount": 620 },
+        { "group": "光学", "item": "双目单色光波导模组", "amount": 980 },
+        { "group": "摄像头", "item": "单目 2K", "amount": 150 },
+        { "group": "音频", "item": "四麦阵列 + 定向扬声器", "amount": 110 },
+        { "group": "结构", "item": "PC+ABS 镜架 + 铝中梁", "amount": 320 },
+        { "group": "电池", "item": "可换电池 8 h", "amount": 140 },
+        { "group": "制造", "item": "组装 + 光学校准 + 产测", "amount": 520 },
+        { "group": "包装", "item": "标准包装 + 备用电池", "amount": 120 },
+        { "group": "物流", "item": "干线 + 仓储分摊", "amount": 180 },
+        { "group": "研发", "item": "平台研发摊销", "amount": 380 },
+        { "group": "渠道", "item": "渠道 + 售后计提", "amount": 330 },
+        { "group": "税费", "item": "其他税费与损耗", "amount": 350 }
+      ]
+    },
+    {
+      "id": "pro",
+      "sku": "NB-P1",
+      "name": "NewBee Pro",
+      "tagline": "全彩、空间交互、全天候",
+      "positioning": "全彩光波导旗舰：碳纤维一体机身，面向开发者与专业场景",
+      "price": 11999,
+      "cost": 6200,
+      "weight_g": 48,
+      "target_user": "开发者、现场作业与需要解放双手的专业用户",
+      "use_cases": [
+        "全彩空间界面与手势操作",
+        "第一视角记录与远程协作",
+        "双电热插拔，跨班次不间断使用"
+      ],
+      "caps": {
+        "display": "color",
+        "display_w": 1280,
+        "display_h": 720,
+        "mic_count": 6,
+        "camera_count": 2,
+        "depth": true,
+        "gesture": true,
+        "touch": "dual",
+        "battery_h": 24,
+        "replaceable_battery": true,
+        "offline_intents": 12,
+        "wifi": "6E",
+        "bt": "5.3"
+      },
+      "bom": [
+        { "group": "主板", "item": "SoC + 存储 + 电源管理", "amount": 780 },
+        { "group": "光学", "item": "双目全彩光波导 1280×720", "amount": 1850 },
+        { "group": "摄像头", "item": "双目 2K + 深度", "amount": 280 },
+        { "group": "音频", "item": "六麦环形阵列 + 定向扬声器", "amount": 160 },
+        { "group": "结构", "item": "T1000 碳纤维 + 钛合金", "amount": 720 },
+        { "group": "电池", "item": "双电热插拔", "amount": 200 },
+        { "group": "制造", "item": "组装 + 光学校准 + 产测", "amount": 680 },
+        { "group": "包装", "item": "旗舰包装 + 双电 + 收纳盒", "amount": 160 },
+        { "group": "物流", "item": "干线 + 仓储分摊", "amount": 220 },
+        { "group": "研发", "item": "平台研发摊销", "amount": 450 },
+        { "group": "渠道", "item": "渠道 + 售后计提", "amount": 380 },
+        { "group": "税费", "item": "其他税费与损耗", "amount": 320 }
+      ]
+    }
+  ]
+}

@@ -1,20 +1,27 @@
 # 场景路由配置
-version: 1
+#
+# 机型能力见 sku/tiers.json 与 adapter/src/capabilities.py：
+#   lite     NB-L1  无显示          → 8 条离线指令可用
+#   standard NB-S1  单色光波导      → 12 条
+#   pro      NB-P1  全彩 + 手势/深度 → 12 条
+# requires 声明该指令硬依赖的能力；当前机型缺失时走 fallback.unsupported，
+# 返回一句可播报的降级话术，而不是抛异常。
+version: 2
 
 offline:
   # 端侧直接处理，不下云（断网仍可用）
   budget_ms: 80
   commands:
-    - { intent: camera.capture,  phrases: ["拍照", "拍一张", "记录一下"] }
+    - { intent: camera.capture,  phrases: ["拍照", "拍一张", "记录一下"], requires: [display] }
     - { intent: camera.record,   phrases: ["开始录像", "停止录像"] }
     - { intent: media.play,      phrases: ["播放", "下一首", "暂停"] }
     - { intent: volume.set,      phrases: ["大声一点", "小声一点", "静音"] }
     - { intent: time.now,        phrases: ["几点了", "现在时间"] }
     - { intent: battery.status,  phrases: ["还有多少电", "电量"] }
-    - { intent: nav.back_home,   phrases: ["带我回去", "导航回家"] }
+    - { intent: nav.back_home,   phrases: ["带我回去", "导航回家"], requires: [display] }
     - { intent: notify.mute,     phrases: ["免打扰", "别提醒我"] }
-    - { intent: translate.quick, phrases: ["翻译一下"] }
-    - { intent: note.capture,    phrases: ["记一下", "备忘"] }
+    - { intent: translate.quick, phrases: ["翻译一下"], requires: [display] }
+    - { intent: note.capture,    phrases: ["记一下", "备忘"], requires: [display] }
     - { intent: call.answer,     phrases: ["接电话", "挂断"] }
     - { intent: timer.set,       phrases: ["定个闹钟", "倒计时"] }
 

@@ -1,8 +1,10 @@
 CC ?= cc
 CFLAGS = -std=c99 -Wall -Wextra -I../../include
 
-hello_skill: main.c
-	$(CC) $(CFLAGS) -o $@ $<
+SRCS = main.c ../../src/newbee_model.c
+
+hello_skill: $(SRCS)
+	$(CC) $(CFLAGS) -o $@ $(SRCS)
 
 clean:
 	rm -f hello_skill
